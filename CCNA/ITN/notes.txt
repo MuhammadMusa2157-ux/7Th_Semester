@@ -1,0 +1,7 @@
+Here's a breakdown of the terms:
+Port: A physical connector or outlet on a device where a cable is plugged in. 
+Interface: A specialized port on a networking device that serves as the point of interaction between that device and an individual network. 
+NIC (Network Interface Card): A hardware component (like a card or chip) that provides the physical connection for a device to join a network. 
+
+Jobs search 
+  You can also search for IT jobs using online search engines such as Indeed, Glassdoor, and Monster. Use search terms such as IT, network administrator, network architects, and computer systems administrator. You can also search using the term Cisco CCNA

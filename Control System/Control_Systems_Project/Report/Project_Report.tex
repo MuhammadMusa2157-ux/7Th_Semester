@@ -1,0 +1,281 @@
+\documentclass{article}
+\usepackage{amsmath,epsfig,rotating}
+
+\begin{document}
+
+\begin{flushleft}
+{\sc \Large Control Systems - Project Report} \hfill \\ $ $ \\ 
+\medskip
+Name: Hammad Ahmad \\ 
+Enrollment Number: 21PWCSE1999\\ 
+Section: A \\ 
+\today
+\end{flushleft}
+
+\section{Problem which is considered}
+a. Check the stabiliity of the system using all the methods you know. \\ 
+b. Compute the controllability and observibility for the system.If the system is unstable, design a suitable controller for it. \\ 
+c. Simulate tge system using controller and show all the responses.\\ 
+d. Design a PID controller.\\ 
+e. Compute the steady state errors before and after designing the controller.\\
+
+% This command is done for extra space
+\vskip30pt
+
+\section{Solution}
+In this report, we address the above problem and explain each subproblem in detail.
+
+\subsection{State-space Representation of the System}
+The state-space representation of the system can be written as follows:
+\begin{equation}
+\begin{bmatrix} 
+\dot{x_1} \\  
+\dot{x_2} \\  
+\dot{x_3} 
+\end{bmatrix}
+= \begin{bmatrix}
+3 & 2 & 3 \\
+3 & 2 & 4 \\
+1 & 1 & 3  
+\end{bmatrix}
+\begin{bmatrix} 
+x_1 \\  
+x_2 \\  
+x_3  
+\end{bmatrix} +
+\begin{bmatrix}
+4 \\ 
+0 \\ 
+3  
+\end{bmatrix}
+u
+\end{equation}
+
+\begin{equation}
+y = \begin{bmatrix}
+1 & 1 & 0.5
+\end{bmatrix}
+\begin{bmatrix} 
+x_1 \\  
+x_2 \\  
+x_3  
+\end{bmatrix}
+\end{equation}
+
+The state-space matrices are defined as follows:
+
+\[
+A = \begin{bmatrix}
+3 & 2 & 3 \\
+3 & 2 & 4 \\
+1 & 1 & 3  
+\end{bmatrix}, \quad 
+B = \begin{bmatrix}
+4 \\
+0 \\
+3
+\end{bmatrix}, \quad 
+C = \begin{bmatrix}
+1 & 1 & 0.5
+\end{bmatrix}, \quad D = 0
+\]
+
+\subsection{Stability analysis of the system}
+In this section, we analyze the stability of the system using eigenvalues, poles, step response, and root locus.
+
+The eigenvalues of the system are calculated from the matrix \( A \). The eigenvalues \(\lambda_1\), \(\lambda_2\), and \(\lambda_3\) of the system are:
+
+\[
+\lambda_1 = 6.8023, \quad \lambda_2 = 1.3099, \quad \lambda_3 = -0.1122
+\]
+
+We observe that two eigenvalues is negative, which indicates the system is unstable. 
+
+Next, the poles of the transfer function are also computed. The poles \( p_1 \), \( p_2 \), and \( p_3 \) are:
+
+\[
+p_1 = 6.8023, \quad p_2 = 1.3099, \quad p_3 = -0.1122
+\]
+
+Since two of the poles is positive, the system is again determined to be unstable. 
+\vspace{10pt}
+
+The step response of the system is shown below. It confirms that the system is unstable as expected from the eigenvalues and poles. The plot below illustrates the response:
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{Step_Res.png} % Ensure the image is in the same directory as this .tex file
+\caption{Step Response of the system, indicating instability.}
+\end{figure}
+
+\vspace{10pt} % Adds a small gap between the figures
+
+The performance metrics for the step response are as follows:
+
+\[
+\text{Rise Time: } \text{Tr} = 11.9286
+\]
+\[
+\text{Transient Time: } \text{Tt} = 316.8811
+\]
+\[
+\text{Settling Time: } \text{Ts} = 316.8811
+\]
+\[
+\text{Settling Min: } \text{SettlingMin} = 2.1575 \times 10^{25}
+\]
+\[
+\text{Settling Max: } \text{SettlingMax} = 2.1575 \times 10^{25}
+\]
+\[
+\text{Overshoot: } \text{OS} = 0
+\]
+\[
+\text{Undershoot: } \text{US} = 0
+\]
+\[
+\text{Peak Value: } \text{Peak} = 2.1575 \times 10^{25}
+\]
+\[
+\text{Peak Time: } \text{PeakTime} = 317
+\]
+
+These metrics indicate that the system's step response exhibits extremely high settling times and peak values, which further confirms the system's instability.
+
+\vspace{10pt} % Adds a small gap between the figures
+
+The root locus of the system is shown below:
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{r_locus.png} % Ensure the image is in the same directory as this .tex file
+\caption{Root Locus of the system.}
+\end{figure}
+
+\vspace{10pt} % Adds a small gap between the figures
+
+Next, we construct a Routh-Hurwitz table to check the stability of the system:
+
+\[
+\renewcommand{\arraystretch}{1.5}
+\begin{array}{|c|c|c|c|}
+\hline
+\textbf{Order} & \textbf{Column 1} & \textbf{Column 2} & \textbf{Column 3} \\ \hline
+s^3 & 1   & 8   & 0 \\ \hline
+s^2 & -8  & 1   & 0 \\ \hline
+s^1 & \frac{65}{8} & 0 & 0 \\ \hline
+s^0 & 1   & 0   & 0 \\ \hline
+\end{array}
+\]
+
+As there are 2 sign changes in the first column, the system is unstable.
+
+
+\subsection{Controllability analysis of the system}
+The controllability of the system is checked using the controllability matrix. The controllability matrix \( \mathcal{C} \) is calculated as follows:
+
+\[
+\mathcal{C} = \begin{bmatrix}
+4 & 21 & 150 \\
+0 & 24 & 163 \\
+3 & 13 & 84
+\end{bmatrix}
+\]
+
+The rank of the controllability matrix is:
+
+\[
+\text{rank}(\mathcal{C}) = 3
+\]
+
+Since the rank of the controllability matrix is equal to \( n \), which is the size of the matrix \( A \) (i.e., 3), the system passes the controllability test. This means the system is controllable. 
+
+Now, we proceed to find the state feedback gain matrix \( K \). The state feedback gain matrix \( K \) is computed as:
+
+\[
+K = \begin{bmatrix}
+91.2439 & 8.2683 & -106.6585
+\end{bmatrix}
+\]
+
+Since the system is controllable, we have successfully designed the state feedback controller.
+\vspace{10pt} % Adds a small gap between the figures
+
+\subsection{Observability analysis of the system}
+The observability of the system is checked using the observability matrix. The observability matrix \( \mathcal{O} \) is calculated as follows:
+
+\[
+\mathcal{O} = \begin{bmatrix}
+1.0000 & 1.0000 & 0.5000 \\
+6.5000 & 4.5000 & 8.5000 \\
+41.5000 & 30.5000 & 63.0000
+\end{bmatrix}
+\]
+
+The system is observable, as the rank of the observability matrix is full, implying that the system's states can be reconstructed from the output.
+
+Now, we proceed to design the observer. The observer gain matrix \( L \) is computed as:
+
+\[
+L = 1.0 \times 10^4 \begin{bmatrix}
+-1.9481 \\
+1.5723 \\
+0.7911
+\end{bmatrix}
+\]
+
+With the observer gain matrix \( L \) calculated, we can design the observer for the system.
+
+
+\subsection{Controller Design for the system}
+
+Since the system passed both the controllability and observability tests, we proceeded to design the observer-based feedback controller. The observer-based feedback controller utilizes the observer gain matrix \( L \) and the state feedback matrix \( K \), which were derived earlier. The controller design is implemented to stabilize the system by placing the poles at the desired locations.
+
+The image below illustrates the response of the system with the observer-based feedback controller.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{observed_based_feedback_controller.png} % Ensure the image is in the same directory as this .tex file
+\caption{System Response with Observer-Based Feedback Controller.}
+\end{figure}
+
+Additionally, we designed a PID controller for the system to compare its performance with the observer-based feedback controller. The PID controller is tuned to provide the desired system behavior. The image below shows the system response with the PID controller.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{Pid_controller.png} % Ensure the image is in the same directory as this .tex file
+\caption{System Response with PID Controller.}
+\end{figure}
+
+
+\section{Results and Discussions}
+
+1. \textbf{PID Controller Simulation}: The simulation of the PID controller’s performance is shown in Figure 5. This simulation demonstrates how the PID controller regulates the system, maintaining stability and achieving the desired output.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{pid_simulation.png} % Ensure the image is in the same directory as this .tex file
+\caption{PID Controller Simulation.}
+\end{figure}
+
+2. \textbf{Observer-Based Feedback Controller Simulation}: Figure 6 presents the simulation of the observer-based feedback controller. This simulation illustrates the effectiveness of the observer in estimating system states and its impact on overall performance, improving system robustness.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{observer_simualtion.png} % Ensure the image is in the same directory as this .tex file
+\caption{Observer-Based Feedback Controller Simulation.}
+\end{figure}
+
+3. \textbf{Steady-State Error Simulation}: The steady-state errors of the system are depicted in Figure  7. This simulation analyzes the system's response over time and demonstrates how the steady-state error is minimized with the applied controllers.
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=0.75\textwidth]{SSE_simulation.png} % Ensure the image is in the same directory as this .tex file
+\caption{Steady-State Error Simulation.}
+\end{figure}
+
+Each simulation offers valuable insights into the system's behavior under different control strategies and helps in evaluating their effectiveness in achieving the desired performance.
+
+
+
+\end{document}
